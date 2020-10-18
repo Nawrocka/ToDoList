@@ -1,0 +1,33 @@
+﻿@model ToDoList1.Models.ToDo
+
+@{
+    ViewBag.Title = "Index";
+}
+<h2>My ToDo List</h2>
+
+<div id="tableDiv"></div>
+
+<div id="toDoCreateForm">
+    @using (Ajax.BeginForm("AJAXCreate", "ToDoes", new AjaxOptions
+    {
+        InsertionMode = InsertionMode.Replace,
+        HttpMethod = "POST",
+        UpdateTargetId = "tableDiv"        
+    }))
+    {
+        <div class="form-group">
+            @Html.AntiForgeryToken()           
+            <div>
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                <!--!!!!!!!!!!! dodaj clearing description box i może dodaj submit button obok-->
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Custom_Scripts/BuildTable.js"></script>
+    @Scripts.Render("~/bundles/jqueryval") <!--walidacja clientSide-->
+}
